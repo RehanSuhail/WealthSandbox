@@ -42,7 +42,7 @@ WealthSandbox/
 - **AI Insights** – Powered by Google Gemini to generate natural-language financial insights
 - **Advisor Portal** – Advisors can manage client profiles, connect with clients, and review sandboxes
 - **Client Portal** – Clients can run their own simulations and share results with advisors
-- **Authentication** – Secure user auth via [Clerk](https://clerk.com)
+- **Authentication** – Secure user auth.
 - **Real-time Charts** – Interactive wealth trajectory charts (Recharts + Lightweight Charts)
 
 ---
@@ -53,7 +53,6 @@ WealthSandbox/
 
 - [Node.js](https://nodejs.org/) ≥ 20 and [pnpm](https://pnpm.io/)
 - [Python](https://python.org/) ≥ 3.11
-- A [Clerk](https://clerk.com) account (for authentication)
 - A [Google Gemini](https://ai.google.dev/) API key (for AI insights)
 
 ---
@@ -74,37 +73,12 @@ cd wealthsandbox
 pnpm install
 ```
 
-Create a `.env.local` file in the `wealthsandbox/` directory:
-
-```env
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
-CLERK_SECRET_KEY=sk_...
-
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/onboarding/client
-NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/onboarding/client
-
-# Google Gemini
-GEMINI_API_KEY=AIza...
-
-# JWT Secret
-JWT_SECRET=your_jwt_secret_here
-
-# App URL
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
 
 Run the development server:
 
 ```bash
 pnpm dev
 ```
-
-The app will be available at [http://localhost:3000](http://localhost:3000).
-
----
 
 ### 3. Monte Carlo Simulation API
 
@@ -145,7 +119,6 @@ API docs (Swagger UI): [http://localhost:8000/docs](http://localhost:8000/docs)
 | TypeScript | Type safety |
 | Tailwind CSS v4 | Styling |
 | shadcn/ui | UI component library |
-| Clerk | Authentication |
 | Recharts / Lightweight Charts | Data visualization |
 | Google Gemini | AI-powered insights |
 | Prisma | ORM |
