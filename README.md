@@ -171,9 +171,3 @@ API docs (Swagger UI): [http://localhost:8000/docs](http://localhost:8000/docs)
 | `GEMINI_API_KEY` | Google Gemini API key |
 | `JWT_SECRET` | Secret for JWT signing |
 | `NEXT_PUBLIC_APP_URL` | Base URL of the application |
-
----
-
-## 📄 License
-
-This project is private and not licensed for public use.
