@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LPL Wealth Management – Portfolio Sandboxes</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/sandboxes.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- ─── Top Nav ─── -->
+  <nav class="top-nav">
+    <a href="/">🎲 Basic Playground</a>
+    <a href="/sandboxes" class="active">🧪 Portfolio Sandboxes</a>
+  </nav>
+
+  <header>
+    <h1>🧪 Portfolio Sandbox Testing</h1>
+    <p class="subtitle">LPL Financial – Interactive Engine Tester</p>
+  </header>
+
+  <!-- ─── Tab Bar ─── -->
+  <div class="tab-bar">
+    <button class="tab active" data-tab="retirement">🏦 Retirement</button>
+    <button class="tab" data-tab="equity">📈 Equity Growth</button>
+    <button class="tab" data-tab="college">🎓 College 529</button>
+    <button class="tab" data-tab="realestate">🏠 Real Estate</button>
+    <button class="tab" data-tab="emergency">🛟 Emergency Fund</button>
+  </div>
+
+  <main>
+    <!-- ================================================================= -->
+    <!--  1. RETIREMENT SANDBOX                                            -->
+    <!-- ================================================================= -->
+    <div class="sandbox-panel active" id="panel-retirement">
+      <section class="controls">
+        <div class="slider-group">
+          <label>Current Age</label>
+          <div class="slider-row">
+            <input type="range" id="ret-currentAge" min="20" max="60" value="30" />
+            <span class="slider-value" id="ret-currentAge-val">30</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Retirement Age</label>
+          <div class="slider-row">
+            <input type="range" id="ret-retirementAge" min="50" max="75" value="65" />
+            <span class="slider-value" id="ret-retirementAge-val">65</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Life Expectancy</label>
+          <div class="slider-row">
+            <input type="range" id="ret-lifeExpectancy" min="70" max="100" value="90" />
+            <span class="slider-value" id="ret-lifeExpectancy-val">90</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Current Savings ($)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-currentSavings" min="0" max="2000000" step="5000" value="80000" />
+            <span class="slider-value" id="ret-currentSavings-val">$80,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Monthly Contribution ($)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-monthlyContrib" min="0" max="10000" step="100" value="2000" />
+            <span class="slider-value" id="ret-monthlyContrib-val">$2,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Expected Return (%)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-expectedReturn" min="2" max="15" step="0.5" value="8" />
+            <span class="slider-value" id="ret-expectedReturn-val">8.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Volatility (%)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-volatility" min="5" max="25" step="0.5" value="15" />
+            <span class="slider-value" id="ret-volatility-val">15.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Inflation Rate (%)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-inflationRate" min="1" max="6" step="0.5" value="3" />
+            <span class="slider-value" id="ret-inflationRate-val">3.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Employer Match (%)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-employerMatch" min="0" max="100" step="5" value="50" />
+            <span class="slider-value" id="ret-employerMatch-val">50%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Desired Monthly Income ($)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-monthlyIncome" min="1000" max="20000" step="500" value="5000" />
+            <span class="slider-value" id="ret-monthlyIncome-val">$5,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Social Security Start Age</label>
+          <div class="slider-row">
+            <input type="range" id="ret-ssStartAge" min="62" max="70" value="67" />
+            <span class="slider-value" id="ret-ssStartAge-val">67</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Monthly SS Benefit ($)</label>
+          <div class="slider-row">
+            <input type="range" id="ret-ssAmount" min="0" max="5000" step="100" value="2000" />
+            <span class="slider-value" id="ret-ssAmount-val">$2,000</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls stress-test-section">
+        <div class="stress-test-header">
+          <span class="stress-icon">⚡</span>
+          <h2>Stress Test</h2>
+        </div>
+        <div class="stress-test-grid">
+          <div class="slider-group">
+            <label>Crisis Event</label>
+            <div class="select-row">
+              <select id="ret-crisisEvent">
+                <option value="None">None – Normal Market</option>
+                <option value="GreatDepression">Great Depression (1929–33)</option>
+                <option value="OilCrisis1973">Oil Crisis (1973–76)</option>
+                <option value="DotCom2000">Dot-Com Bubble (2000–03)</option>
+                <option value="Financial2008">Financial Crisis (2008–11)</option>
+                <option value="Covid2020">COVID-19 Crash (2020–21)</option>
+                <option value="RateShock2022">Rate Shock (2022–23)</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label>Crisis Starts In (years)</label>
+            <div class="slider-row">
+              <input type="range" id="ret-crisisStart" min="0" max="30" value="5" />
+              <span class="slider-value" id="ret-crisisStart-val">5 yrs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sandbox-metrics" id="ret-metrics">
+        <div class="card metric"><h3>Balance at Retirement</h3><p class="card-value" id="ret-m-balance">—</p></div>
+        <div class="card metric success"><h3>Probability of Success</h3><p class="card-value" id="ret-m-prob">—</p></div>
+      </section>
+
+      <section class="chart-container">
+        <div class="chart-wrapper"><canvas id="ret-chart"></canvas></div>
+        <p class="chart-note" id="ret-status">Adjust sliders to run simulation…</p>
+      </section>
+    </div>
+
+    <!-- ================================================================= -->
+    <!--  2. EQUITY GROWTH SANDBOX                                         -->
+    <!-- ================================================================= -->
+    <div class="sandbox-panel" id="panel-equity">
+      <section class="controls">
+        <div class="slider-group">
+          <label>Initial Lump Sum ($)</label>
+          <div class="slider-row">
+            <input type="range" id="eq-lumpSum" min="0" max="500000" step="5000" value="50000" />
+            <span class="slider-value" id="eq-lumpSum-val">$50,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Monthly DCA ($)</label>
+          <div class="slider-row">
+            <input type="range" id="eq-monthlyDca" min="0" max="10000" step="100" value="1000" />
+            <span class="slider-value" id="eq-monthlyDca-val">$1,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Time Horizon (years)</label>
+          <div class="slider-row">
+            <input type="range" id="eq-horizon" min="1" max="40" value="20" />
+            <span class="slider-value" id="eq-horizon-val">20</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Expected Return (%)</label>
+          <div class="slider-row">
+            <input type="range" id="eq-return" min="2" max="15" step="0.5" value="10" />
+            <span class="slider-value" id="eq-return-val">10.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Volatility (%)</label>
+          <div class="slider-row">
+            <input type="range" id="eq-vol" min="5" max="25" step="0.5" value="17" />
+            <span class="slider-value" id="eq-vol-val">17.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Expense Ratio (%)</label>
+          <div class="slider-row">
+            <input type="range" id="eq-expense" min="0.03" max="1.5" step="0.01" value="0.2" />
+            <span class="slider-value" id="eq-expense-val">0.20%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls stress-test-section">
+        <div class="stress-test-header">
+          <span class="stress-icon">⚡</span>
+          <h2>Stress Test</h2>
+        </div>
+        <div class="stress-test-grid">
+          <div class="slider-group">
+            <label>Crisis Event</label>
+            <div class="select-row">
+              <select id="eq-crisisEvent">
+                <option value="None">None – Normal Market</option>
+                <option value="GreatDepression">Great Depression (1929–33)</option>
+                <option value="OilCrisis1973">Oil Crisis (1973–76)</option>
+                <option value="DotCom2000">Dot-Com Bubble (2000–03)</option>
+                <option value="Financial2008">Financial Crisis (2008–11)</option>
+                <option value="Covid2020">COVID-19 Crash (2020–21)</option>
+                <option value="RateShock2022">Rate Shock (2022–23)</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label>Crisis Starts In (years)</label>
+            <div class="slider-row">
+              <input type="range" id="eq-crisisStart" min="0" max="30" value="5" />
+              <span class="slider-value" id="eq-crisisStart-val">5 yrs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sandbox-metrics" id="eq-metrics">
+        <div class="card metric"><h3>Total Contributed</h3><p class="card-value" id="eq-m-contributed">—</p></div>
+        <div class="card metric"><h3>Projected Value</h3><p class="card-value" id="eq-m-projected">—</p></div>
+        <div class="card metric"><h3>CAGR</h3><p class="card-value" id="eq-m-cagr">—</p></div>
+        <div class="card metric"><h3>Expense Drag</h3><p class="card-value" id="eq-m-drag">—</p></div>
+      </section>
+
+      <section class="chart-container">
+        <div class="chart-wrapper"><canvas id="eq-chart"></canvas></div>
+        <p class="chart-note" id="eq-status">Adjust sliders to run simulation…</p>
+      </section>
+    </div>
+
+    <!-- ================================================================= -->
+    <!--  3. COLLEGE SAVINGS SANDBOX                                       -->
+    <!-- ================================================================= -->
+    <div class="sandbox-panel" id="panel-college">
+      <section class="controls">
+        <div class="slider-group">
+          <label>Child's Age</label>
+          <div class="slider-row">
+            <input type="range" id="col-childAge" min="0" max="17" value="3" />
+            <span class="slider-value" id="col-childAge-val">3</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>College Start Age</label>
+          <div class="slider-row">
+            <input type="range" id="col-startAge" min="16" max="20" value="18" />
+            <span class="slider-value" id="col-startAge-val">18</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Target Cost ($)</label>
+          <div class="slider-row">
+            <input type="range" id="col-targetCost" min="50000" max="500000" step="10000" value="200000" />
+            <span class="slider-value" id="col-targetCost-val">$200,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Current 529 Balance ($)</label>
+          <div class="slider-row">
+            <input type="range" id="col-balance" min="0" max="200000" step="1000" value="15000" />
+            <span class="slider-value" id="col-balance-val">$15,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Monthly Contribution ($)</label>
+          <div class="slider-row">
+            <input type="range" id="col-monthly" min="0" max="5000" step="50" value="500" />
+            <span class="slider-value" id="col-monthly-val">$500</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Expected Return (%)</label>
+          <div class="slider-row">
+            <input type="range" id="col-return" min="2" max="10" step="0.5" value="6" />
+            <span class="slider-value" id="col-return-val">6.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Volatility (%)</label>
+          <div class="slider-row">
+            <input type="range" id="col-vol" min="4" max="15" step="0.5" value="8" />
+            <span class="slider-value" id="col-vol-val">8.0%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls stress-test-section">
+        <div class="stress-test-header">
+          <span class="stress-icon">⚡</span>
+          <h2>Stress Test</h2>
+        </div>
+        <div class="stress-test-grid">
+          <div class="slider-group">
+            <label>Crisis Event</label>
+            <div class="select-row">
+              <select id="col-crisisEvent">
+                <option value="None">None – Normal Market</option>
+                <option value="GreatDepression">Great Depression (1929–33)</option>
+                <option value="OilCrisis1973">Oil Crisis (1973–76)</option>
+                <option value="DotCom2000">Dot-Com Bubble (2000–03)</option>
+                <option value="Financial2008">Financial Crisis (2008–11)</option>
+                <option value="Covid2020">COVID-19 Crash (2020–21)</option>
+                <option value="RateShock2022">Rate Shock (2022–23)</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label>Crisis Starts In (years)</label>
+            <div class="slider-row">
+              <input type="range" id="col-crisisStart" min="0" max="30" value="5" />
+              <span class="slider-value" id="col-crisisStart-val">5 yrs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sandbox-metrics" id="col-metrics">
+        <div class="card metric"><h3>Total Contributed</h3><p class="card-value" id="col-m-contributed">—</p></div>
+        <div class="card metric"><h3>Projected (Base)</h3><p class="card-value" id="col-m-projected">—</p></div>
+        <div class="card metric"><h3>Gap to Target</h3><p class="card-value" id="col-m-gap">—</p></div>
+        <div class="card metric success"><h3>Goal Probability</h3><p class="card-value" id="col-m-prob">—</p></div>
+      </section>
+
+      <section class="chart-container">
+        <div class="chart-wrapper"><canvas id="col-chart"></canvas></div>
+        <p class="chart-note" id="col-status">Adjust sliders to run simulation…</p>
+      </section>
+    </div>
+
+    <!-- ================================================================= -->
+    <!--  4. REAL ESTATE SANDBOX                                           -->
+    <!-- ================================================================= -->
+    <div class="sandbox-panel" id="panel-realestate">
+      <section class="controls">
+        <div class="slider-group">
+          <label>Purchase Price ($)</label>
+          <div class="slider-row">
+            <input type="range" id="re-price" min="50000" max="2000000" step="10000" value="400000" />
+            <span class="slider-value" id="re-price-val">$400,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Down Payment (%)</label>
+          <div class="slider-row">
+            <input type="range" id="re-downPct" min="3.5" max="50" step="0.5" value="20" />
+            <span class="slider-value" id="re-downPct-val">20.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Mortgage Rate (%)</label>
+          <div class="slider-row">
+            <input type="range" id="re-rate" min="3" max="10" step="0.125" value="6.5" />
+            <span class="slider-value" id="re-rate-val">6.50%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Monthly Rent ($)</label>
+          <div class="slider-row">
+            <input type="range" id="re-rent" min="0" max="10000" step="100" value="2500" />
+            <span class="slider-value" id="re-rent-val">$2,500</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Annual Appreciation (%)</label>
+          <div class="slider-row">
+            <input type="range" id="re-appreciation" min="0" max="10" step="0.5" value="3" />
+            <span class="slider-value" id="re-appreciation-val">3.0%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Vacancy Rate (%)</label>
+          <div class="slider-row">
+            <input type="range" id="re-vacancy" min="0" max="20" step="1" value="5" />
+            <span class="slider-value" id="re-vacancy-val">5%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Annual Expenses ($)</label>
+          <div class="slider-row">
+            <input type="range" id="re-expenses" min="0" max="30000" step="500" value="6000" />
+            <span class="slider-value" id="re-expenses-val">$6,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Hold Period (years)</label>
+          <div class="slider-row">
+            <input type="range" id="re-hold" min="1" max="30" value="10" />
+            <span class="slider-value" id="re-hold-val">10</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls stress-test-section">
+        <div class="stress-test-header">
+          <span class="stress-icon">⚡</span>
+          <h2>Stress Test</h2>
+        </div>
+        <div class="stress-test-grid">
+          <div class="slider-group">
+            <label>Crisis Event</label>
+            <div class="select-row">
+              <select id="re-crisisEvent">
+                <option value="None">None – Normal Market</option>
+                <option value="GreatDepression">Great Depression (1929–33)</option>
+                <option value="OilCrisis1973">Oil Crisis (1973–76)</option>
+                <option value="DotCom2000">Dot-Com Bubble (2000–03)</option>
+                <option value="Financial2008">Financial Crisis (2008–11)</option>
+                <option value="Covid2020">COVID-19 Crash (2020–21)</option>
+                <option value="RateShock2022">Rate Shock (2022–23)</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label>Crisis Starts In (years)</label>
+            <div class="slider-row">
+              <input type="range" id="re-crisisStart" min="0" max="30" value="5" />
+              <span class="slider-value" id="re-crisisStart-val">5 yrs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sandbox-metrics" id="re-metrics">
+        <div class="card metric"><h3>Monthly Cash Flow</h3><p class="card-value" id="re-m-cashflow">—</p></div>
+        <div class="card metric"><h3>Cap Rate</h3><p class="card-value" id="re-m-cap">—</p></div>
+        <div class="card metric"><h3>Cash-on-Cash</h3><p class="card-value" id="re-m-coc">—</p></div>
+        <div class="card metric"><h3>Total Profit</h3><p class="card-value" id="re-m-profit">—</p></div>
+      </section>
+
+      <section class="chart-container">
+        <div class="chart-wrapper"><canvas id="re-chart"></canvas></div>
+        <p class="chart-note" id="re-status">Adjust sliders to run simulation…</p>
+      </section>
+    </div>
+
+    <!-- ================================================================= -->
+    <!--  5. EMERGENCY FUND SANDBOX                                        -->
+    <!-- ================================================================= -->
+    <div class="sandbox-panel" id="panel-emergency">
+      <section class="controls">
+        <div class="slider-group">
+          <label>Monthly Expenses ($)</label>
+          <div class="slider-row">
+            <input type="range" id="em-expenses" min="1000" max="20000" step="500" value="5000" />
+            <span class="slider-value" id="em-expenses-val">$5,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Target Buffer (months)</label>
+          <div class="slider-row">
+            <input type="range" id="em-buffer" min="1" max="24" value="6" />
+            <span class="slider-value" id="em-buffer-val">6</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Current Savings ($)</label>
+          <div class="slider-row">
+            <input type="range" id="em-savings" min="0" max="200000" step="500" value="8000" />
+            <span class="slider-value" id="em-savings-val">$8,000</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Monthly Addition ($)</label>
+          <div class="slider-row">
+            <input type="range" id="em-addition" min="0" max="5000" step="50" value="500" />
+            <span class="slider-value" id="em-addition-val">$500</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>HYSA Yield (%)</label>
+          <div class="slider-row">
+            <input type="range" id="em-yield" min="0" max="8" step="0.25" value="4.5" />
+            <span class="slider-value" id="em-yield-val">4.50%</span>
+          </div>
+        </div>
+        <div class="slider-group">
+          <label>Inflation Rate (%)</label>
+          <div class="slider-row">
+            <input type="range" id="em-inflation" min="1" max="6" step="0.5" value="3" />
+            <span class="slider-value" id="em-inflation-val">3.0%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="sandbox-metrics" id="em-metrics">
+        <div class="card metric"><h3>Target Safety Net</h3><p class="card-value" id="em-m-target">—</p></div>
+        <div class="card metric"><h3>Months Covered Now</h3><p class="card-value" id="em-m-covered">—</p></div>
+        <div class="card metric"><h3>Months to Target</h3><p class="card-value" id="em-m-months">—</p></div>
+        <div class="card metric"><h3>Net Real Yield</h3><p class="card-value" id="em-m-yield">—</p></div>
+      </section>
+
+      <section class="chart-container">
+        <div class="chart-wrapper"><canvas id="em-chart"></canvas></div>
+        <p class="chart-note" id="em-status">Adjust sliders to run simulation…</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>For illustrative purposes only. Past performance does not guarantee future results.</p>
+  </footer>
+
+  <script src="/static/sandboxes.js"></script>
+</body>
+</html>

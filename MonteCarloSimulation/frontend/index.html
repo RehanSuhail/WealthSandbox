@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LPL Wealth Management – Monte Carlo Simulator</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/sandboxes.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- ─── Top Nav ─── -->
+  <nav class="top-nav">
+    <a href="/" class="active">🎲 Basic Playground</a>
+    <a href="/sandboxes">🧪 Portfolio Sandboxes</a>
+  </nav>
+
+  <header>
+    <h1>📈 Monte Carlo Retirement Simulator</h1>
+    <p class="subtitle">LPL Financial – Wealth Management Projection Tool</p>
+  </header>
+
+  <main>
+    <!-- ─── Slider Controls ─── -->
+    <section class="controls">
+      <div class="slider-group">
+        <label for="currentAge">Current Age <span class="info-tip" data-tooltip="Your age today. The simulation starts from this age and runs until your retirement age.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="currentAge" min="18" max="80" value="30" />
+          <span class="slider-value" id="currentAgeVal">30</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <label for="retirementAge">Retirement Age <span class="info-tip" data-tooltip="The age you plan to retire. A longer horizon gives your investments more time to grow through compounding.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="retirementAge" min="25" max="100" value="65" />
+          <span class="slider-value" id="retirementAgeVal">65</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <label for="currentSavings">Current Savings ($) <span class="info-tip" data-tooltip="The total amount you have saved and invested right now. This is your starting balance for the simulation.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="currentSavings" min="0" max="2000000" step="5000" value="50000" />
+          <span class="slider-value" id="currentSavingsVal">$50,000</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <label for="monthlyContribution">Monthly Contribution ($) <span class="info-tip" data-tooltip="The fixed amount you add to your portfolio every month (e.g. 401k contributions). Consistent contributions are a powerful driver of long-term wealth.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="monthlyContribution" min="0" max="10000" step="100" value="1500" />
+          <span class="slider-value" id="monthlyContributionVal">$1,500</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <label for="stockAllocation">Stock Allocation (%) <span class="info-tip" data-tooltip="The percentage of your portfolio invested in stocks vs. bonds. Higher stock allocation means higher potential returns but also higher volatility and risk.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="stockAllocation" min="0" max="100" value="70" />
+          <span class="slider-value" id="stockAllocationVal">70%</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <label for="inflationRate">Inflation Rate (%) <span class="info-tip" data-tooltip="The expected annual rate of inflation. All results are shown in today's dollars (real purchasing power), so higher inflation reduces the real value of your future wealth.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="inflationRate" min="0" max="10" step="0.5" value="3" />
+          <span class="slider-value" id="inflationRateVal">3.0%</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <label for="numSimulations">Simulations <span class="info-tip" data-tooltip="The number of random market scenarios to run. More simulations give smoother, more reliable results but take slightly longer to compute.">i</span></label>
+        <div class="slider-row">
+          <input type="range" id="numSimulations" min="100" max="5000" step="100" value="1000" />
+          <span class="slider-value" id="numSimulationsVal">1,000</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Stress Test Controls ─── -->
+    <section class="controls stress-test-section">
+      <div class="stress-test-header">
+        <span class="stress-icon">⚡</span>
+        <h2>Stress Test Scenario</h2>
+      </div>
+
+      <div class="stress-test-grid">
+        <div class="slider-group">
+          <label for="crisisEvent">Crisis Event <span class="info-tip" data-tooltip="Simulate a historical market crash during your investment horizon. The simulation applies real historical returns for the chosen crisis period, showing how your portfolio would be affected.">i</span></label>
+          <div class="select-row">
+            <select id="crisisEvent">
+              <option value="None">None – Normal Market</option>
+              <option value="GreatDepression">Great Depression (1929–33)</option>
+              <option value="OilCrisis1973">Oil Crisis (1973–76)</option>
+              <option value="DotCom2000">Dot-Com Bubble (2000–03)</option>
+              <option value="Financial2008">Financial Crisis (2008–11)</option>
+              <option value="Covid2020">COVID-19 Crash (2020–21)</option>
+              <option value="RateShock2022">Rate Shock (2022–23)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="slider-group" id="crisisStartGroup">
+          <label for="crisisStartYear">Crisis Hits In (years from now) <span class="info-tip" data-tooltip="How many years from now the crisis begins. Set to 0 for an immediate crash, or push it further out to test the impact at different stages of your career.">i</span></label>
+          <div class="slider-row">
+            <input type="range" id="crisisStartYear" min="0" max="30" value="5" />
+            <span class="slider-value" id="crisisStartYearVal">5 yrs</span>
+          </div>
+        </div>
+
+        <div class="crisis-info" id="crisisInfo"></div>
+      </div>
+    </section>
+
+    <!-- ─── Summary Cards ─── -->
+    <section class="summary-cards">
+      <div class="card worst">
+        <h3>Worst Case <span class="percentile">(10th %ile)</span> <span class="info-tip" data-tooltip="Only 10% of simulations ended below this value. This represents a pessimistic scenario — think prolonged bear markets.">i</span></h3>
+        <p class="card-value" id="worstCaseVal">—</p>
+      </div>
+      <div class="card base">
+        <h3>Base Case <span class="percentile">(50th %ile)</span> <span class="info-tip" data-tooltip="The median outcome — half of simulations ended above and half below this value. This is the most realistic target to plan around.">i</span></h3>
+        <p class="card-value" id="baseCaseVal">—</p>
+      </div>
+      <div class="card best">
+        <h3>Best Case <span class="percentile">(90th %ile)</span> <span class="info-tip" data-tooltip="90% of simulations ended below this value. This represents a very optimistic scenario — think sustained bull markets.">i</span></h3>
+        <p class="card-value" id="bestCaseVal">—</p>
+      </div>
+    </section>
+
+    <!-- ─── Investment Analysis Metrics ─── -->
+    <section class="metrics-section">
+      <div class="metrics-header">
+        <span class="metrics-icon">🏦</span>
+        <h2>Investment Analysis</h2>
+      </div>
+      <div class="metrics-cards">
+        <div class="card metric principal">
+          <h3>Total Principal Invested <span class="info-tip" data-tooltip="The total money out of your pocket: your current savings plus every monthly contribution you'll make until retirement. Formula: Current Savings + (Monthly Contribution × 12 × Years).">i</span></h3>
+          <p class="card-desc">Savings + all contributions</p>
+          <p class="card-value" id="totalPrincipalVal">—</p>
+        </div>
+        <div class="card metric projected">
+          <h3>Projected Wealth <span class="percentile">(Base Case)</span> <span class="info-tip" data-tooltip="Your estimated portfolio value at retirement in the median (50th percentile) scenario. This is the most realistic projection of your final wealth.">i</span></h3>
+          <p class="card-desc">Median portfolio at retirement</p>
+          <p class="card-value" id="projectedWealthVal">—</p>
+        </div>
+        <div class="card metric profit">
+          <h3>Estimated Wealth Generated <span class="info-tip" data-tooltip="The 'magic' of compound interest — how much money the market made for you on top of what you invested. Formula: Projected Wealth − Total Principal Invested.">i</span></h3>
+          <p class="card-desc">Compound interest earned</p>
+          <p class="card-value" id="wealthGeneratedVal">—</p>
+        </div>
+        <div class="card metric roi">
+          <h3>Return on Investment <span class="info-tip" data-tooltip="The percentage growth of your money over the entire period. Formula: (Wealth Generated ÷ Total Principal) × 100. A 200% ROI means your money tripled.">i</span></h3>
+          <p class="card-desc">Total growth percentage</p>
+          <p class="card-value" id="roiVal">—</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Chart ─── -->
+    <section class="chart-container">
+      <div class="chart-wrapper">
+        <canvas id="projectionChart"></canvas>
+      </div>
+      <p class="chart-note" id="statusText">Adjust sliders to run simulation…</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>For illustrative purposes only. Past performance does not guarantee future results.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

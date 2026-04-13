@@ -1,0 +1,114 @@
+/* ── Sandbox-specific styles (supplements styles.css) ── */
+
+/* ── Top Navigation ── */
+.top-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.top-nav a {
+  color: var(--clr-text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.top-nav a:hover {
+  background: var(--clr-surface-hover);
+  color: var(--clr-text);
+}
+
+.top-nav a.active {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+/* ── Tab Bar ── */
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tab {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
+  color: var(--clr-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: var(--font);
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  background: var(--clr-surface-hover);
+  color: var(--clr-text);
+  border-color: var(--clr-accent);
+}
+
+.tab.active {
+  background: var(--clr-accent);
+  border-color: var(--clr-accent);
+  color: #fff;
+}
+
+/* ── Sandbox Panels ── */
+.sandbox-panel {
+  display: none;
+}
+
+.sandbox-panel.active {
+  display: contents;
+}
+
+/* ── Sandbox Metric Cards ── */
+.sandbox-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.sandbox-metrics .card {
+  border-top: 3px solid var(--clr-accent);
+}
+
+.sandbox-metrics .card h3 {
+  font-size: 0.78rem;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sandbox-metrics .card .card-value {
+  font-size: 1.5rem;
+  margin-top: 0.4rem;
+  color: var(--clr-base);
+}
+
+.sandbox-metrics .card.success {
+  border-top-color: var(--clr-best);
+}
+
+.sandbox-metrics .card.success .card-value {
+  color: var(--clr-best);
+}
+
+/* Negative cash-flow highlight */
+.card-value.negative {
+  color: var(--clr-worst) !important;
+}
